@@ -4,15 +4,9 @@ title: The Loader Component
 permalink: /docs/loader/
 ---
 
-### Class Maps
+### Class names
 
-Enclosure has the concept of a Class Map, which is a simple class capable of mapping a full class name into a function or a JavaScript file.
-
-In most cases, you'll probably won't have to deal with ClassMaps directly, but instead use Mappers (explained below).
-
-#### Class names
-
-The class name convention for Enclosure is borrowed from PHP namespaces, with foward slashes instead of back-slashes as path separators.
+The class name convention for Enclosure is borrowed from PHP namespaces, with forward slashes instead of back-slashes as path separators. The last part of the path is considered to be the class name, while the rest is the namespace.
 
 _Valid:_
 
@@ -28,9 +22,17 @@ _Invalid:_
 - `Example/++/Mailer`
 - and many more...
 
+### Class Maps
+
+Enclosure has the concept of a Class Map, which is a simple class capable of mapping a full class name into a function or a JavaScript file.
+
+In most cases, you'll probably won't have to deal with ClassMaps directly, but instead use Mappers (explained below).
+
 #### EnclosureClassMap
 
-A class map with all Enclosure classes is available as `Chromabits/Mapper/EnclosureClassMap`. This is the map used by the bootstrap environment. However, as soon as you setup your own class loader, Enclosure classes will not be available anymore unless you add this map into your loader.
+A class map with all Enclosure classes is available as `Chromabits/Mapper/EnclosureClassMap`. This is the map used by the bootstrap environment.
+
+> **NOTE:** As soon as you setup your own class loader, Enclosure classes will not be available anymore unless you explicitly add the EnclosureClassMap to your Loader
 
 ### Mappers
 
@@ -40,7 +42,7 @@ The first step towards automatic class loading is to use a Mapper. In Enclosure,
 
 Consider the following project structure:
 
-```
+{% highlight sh %}
 src/
     app.js
     Mailer.js
@@ -48,11 +50,11 @@ src/
         Post.js
     Controllers/
         ContactController.js
-```
+{% endhighlight %}
 
 __src/app.js:__
 
-```js
+{% highlight js %}
 require('enclosure').bootstrap();
 
 var DirectoryMapper = use('Chromabits/Mapper/DirectoryMapper');
@@ -61,20 +63,20 @@ var mapper = new DirectoryMapper(__dirname);
 
 // Generate the class map
 var map = mapper.generate();
-```
+{% endhighlight %}
 
-The generated map in this case will contain the following files:
+The generated map in this case will contain the following file mappings:
 
-- `app`
-- `Mailer`
-- `Database/Post`
-- `Controllers/ContactController`
+- `app` → `src/app.js`
+- `Mailer` → `src/Maier.js`
+- `Database/Post` → `src/Database/Post.js`
+- `Controllers/ContactController` → `src/Controllers/ContactController.js`
 
 ### Containers and Loaders
 
 The last piece of the puzzle is Loaders. Loaders are just classes that group a bunch of class maps together and are able to tell if they can resolve a certain class:
 
-```js
+{% highlight js %}
 require('enclosure').prelude();
 
 var Container = use('Chromabits/Container/Container'),
@@ -94,20 +96,20 @@ loader.has('Chromabits/Container/Application')
 
 loader.has('Example/Fake') 
 >>> false
-```
+{% endhighlight %}
 
 A Container can be made more useful by attaching a Loader to it. This will allow it to resolve classes out of the loader if there are no services implementing them:
 
-```js
+{% highlight js %}
 // Start the service container
 var container = new Container();
 
 container.setLoader(loader);
 
 container.installTo(global);
-```
+{% endhighlight %}
 
-__IMPORTANT:__ `setLoader` should be called before `installTo`. Otherwise, the `use()` is not defined/replaced in the target object.
+> __IMPORTANT:__ `setLoader` should be called before `installTo`. Otherwise, the `use()` is not defined/replaced in the target object.
 
 ### Putting it all together
 
@@ -115,7 +117,7 @@ Below is a full example of the previous components:
 
 __src/app.js:__
 
-```js
+{% highlight js %}
 require('enclosure').prelude();
 
 var Container = use('Chromabits/Container/Container'),
@@ -142,11 +144,11 @@ var hello = container.make('Hello');
 
 console.log(hello.say());
 >>> 'hello world'
-```
+{% endhighlight %}
 
 __src/Hello.js:__
 
-```js
+{% highlight js %}
 var Hello = function (World) {
     this.text = 'hello' + World.say();
 };
@@ -156,11 +158,11 @@ Hello.prototype.say = function () {
 };
 
 module.export = Hello;
-```
+{% endhighlight %}
 
 __src/World.js:__
 
-```js
+{% highlight js %}
 var World = function () {};
 
 World.prototype.say = function () {
@@ -168,7 +170,7 @@ World.prototype.say = function () {
 };
 
 module.exports = World;
-```
+{% endhighlight %}
 
 ### use() vs require()
 
@@ -178,27 +180,27 @@ The main difference between `require` and `use` is that `use` uses your containe
 
 For example, consider the following structure:
 
-```
+{% highlight sh %}
 src/
     Mailer.js
     Controllers/
         ContactController.js
-```
+{% endhighlight %}
 
 If we needed to use `Mailer` inside the contact controller, we would normally write something like:
 
-```js
+{% highlight js %}
 var Mailer = require('../Mailer');
-```
+{% endhighlight %}
 However, with Enclosure we can use the following syntax (Assuming you setup a class mapper with `src` as the base directory):
 
-```js
+{% highlight js %}
 var Mailer = use('Mailer');
-```
+{% endhighlight %}
 
 If we move the controller file into another directory, such as `src/Controllers/Front/`:
 
-```js
+{% highlight js %}
 // This now breaks:
 var Mailer = require('../Mailer');
 // and has to be changed to this:
@@ -206,7 +208,7 @@ var Mailer = require('../../Mailer');
 
 // However, this still works:
 var Mailer = use('Mailer');
-```
+{% endhighlight %}
 
 Please note that this function does not construct an instance. It actually returns the constructor function (or whatever you exported in your module). If you would like to create an instance, see automatic construction below.
 
@@ -216,7 +218,7 @@ As shown in the complete example above, the Container is capable of using a Load
 
 Continuing the previous example:
 
-```js
+{% highlight js %}
 // This gets the constructor function
 var Mailer = use('Mailer');
 >>> [Function]
@@ -224,4 +226,4 @@ var Mailer = use('Mailer');
 // This gets an instance
 var mailer = container.make('Mailer');
 >>> Object
-```
+{% endhighlight %}

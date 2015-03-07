@@ -8,7 +8,7 @@ permalink: /start/
 ### Before you start
 
 Please read the [foreword](/docs/foreword). There are some important facts about Enclosure on it.
-_Enclosure might not be for everyone, please consult your doctor before using it :D_
+_Enclosure might not be for everyone, please consult your doctor before using it :stuck_out_tongue_winking_eye:_
 
 ### Installation
 

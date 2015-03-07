@@ -10,14 +10,14 @@ If you are developing an application with Enclosure (not a library), a good plac
 
 Example `index.js`:
 
-{% highlight sh %}
+{% highlight js %}
 // This creates, setups and runs an application container
 require('enclosure').boot();
 {% endhighlight %}
 
 Example `package.json`:
 
-{% highlight sh %}
+{% highlight js %}
 {
     // ...
     "entrypoint": "MyBlog/Console/App",
@@ -34,9 +34,11 @@ Example `package.json`:
 
 Each of these keys will be explained more in detail in the sections below. However, note that **none of these are required** for `boot()` to work properly, although you will probably want to use them to include your own classes.
 
+A more comprehensive explanation of the package.json extension is available [here](/docs/package/)
+
 The boot function can also take additional options:
 
-{% highlight sh %}
+{% highlight js %}
 // You are not required to use package.json
 require('enclosure').boot({
     metadata: '/path/to/metadata.json'
@@ -72,7 +74,7 @@ After running the bootstrapper, the container should be available under `contain
 
 While it is not enforced in any way, most examples will assume the following project structure:
 
-{% highlight sh %}
+{% highlight js %}
 src/
     Example/
         App.js
@@ -91,7 +93,7 @@ package.json
 
 The matching metadata configuration is:
 
-{% highlight sh %}
+{% highlight js %}
 //...
 "entrypoint": "Example/App",
 "providers": ["Example/Providers/RandomServiceProvider"],
@@ -107,7 +109,7 @@ So you have probably noticed the `entrypoint` configuration key. This tells the 
 
 Example `App.js`:
 
-{% highlight sh %}
+{% highlight js %}
 // Dependency injection
 var App = function (ServiceOne, ServiceTwo) {
     this.serviceOne = ServiceOne;
@@ -135,7 +137,7 @@ Instead, Enclosure makes use of it's own Loader component (the `use()` function)
 
 To initialize the bootstrap environment, just call the following function before any call to `use()`:
 
-{% highlight sh %}
+{% highlight js %}
 require('enclosure').prelude();
 
 // Now you can use Enclosure's classes by using use()

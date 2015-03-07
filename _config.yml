@@ -12,6 +12,9 @@ github_username:  etcinit
 kramdown:
   input: GFM
 
+gems:
+  - jemoji
+
 # Build settings
 markdown: kramdown
 highlighter: pygments
