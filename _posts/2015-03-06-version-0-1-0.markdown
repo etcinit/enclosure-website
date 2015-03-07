@@ -1,0 +1,11 @@
+---
+layout: post
+title:  "Version 0.1.0"
+date:   2015-03-06 21:18:53
+categories: release
+---
+
+Release 0.1.0 is now available: [https://github.com/etcinit/enclosure/releases/tag/0.1.0](https://github.com/etcinit/enclosure/releases/tag/0.1.0)
+
+ZIP: [https://github.com/etcinit/enclosure/archive/0.1.0.zip](https://github.com/etcinit/enclosure/archive/0.1.0.zip)
+Tar.gz: [https://github.com/etcinit/enclosure/archive/0.1.0.tar.gz](https://github.com/etcinit/enclosure/archive/0.1.0.tar.gz)

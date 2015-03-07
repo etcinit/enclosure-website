@@ -29,3 +29,7 @@ var enclosure = require('enclosure');
 Currently, Enclosure only officially supports Node.js environments, mostly due to the dependency on the filesystem. It should be possible to the container component on browser applications by using libraries like Browserify.
 
 Additionally, when installing Enclosure to the global scope, the following variables are reserved: `container`, `use`
+
+# Tutorial
+
+After installing, you can follow the [tutorial](/tutorial/)
