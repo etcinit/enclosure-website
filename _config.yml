@@ -1,0 +1,17 @@
+# Site settings
+title: Enclosure
+email: ed@chromabits.com
+description: > # this means to ignore newlines until "baseurl:"
+  Enclosure is an experimental open-source library for Dependency Injection and
+  Module Loading in JavaScript applications.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://enclosure.me" # the base hostname & protocol for your site
+twitter_username: etcinit
+github_username:  etcinit
+
+kramdown:
+  input: GFM
+
+# Build settings
+markdown: kramdown
+highlighter: pygments

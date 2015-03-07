@@ -1,0 +1,127 @@
+---
+layout: wrapperless
+---
+
+<div class="jumbo">
+    <h1>Enclosure.js</h1>
+
+    <p>Dependency injection and module loading made simple</p><br>
+
+    <a class="button" href="/start">Check it out</a>
+</div>
+
+<div class="page-content light-content">
+    <div class="wrapper">
+        <div class="home">
+            <div class="body-col-wrapper">
+                <div class="body-col body-col-1">
+                    <h3>Inspired by PHP/Java concepts</h3>
+                    <p>
+                        Crazy, right? Enclosure borrows a few ideas from PHP
+                        and Java to organize your code around classes and keep
+                        things clean.
+                    </p>
+                    <p>
+                        Namespaces are generated from your projects directory
+                        structure which makes your code easily accessible
+                        through a custom <code>require()</code> function.
+                    </p>
+                    <p>
+                        Hate the syntax? Enclosure is very modular so you can
+                        still use DI without the module loader.
+                    </p>
+                </div>
+
+                <div class="body-col body-col-2">
+                    <h3>Dependency Injection</h3>
+                    <p>
+                        DI is performed through a service container inspired by
+                        Laravel.
+                    </p>
+                    <p>
+                        There are many ways of defining dependencies
+                        for your services (Constructors, Factories, Wraps)
+                    </p>
+                    <p>
+                        Resolving services is super easy too, and might not even
+                        require them to be explicitly defined if you use the
+                        loader module.
+                    </p>
+                </div>
+
+                <div class="body-col body-col-3">
+                    <h3>Weird, and fun</h3>
+                    <p>
+                        It's a crazy experiment, that works really well at what
+                        it aims to do.
+                    </p>
+                    <p>
+                        The module loader shifts away from how
+                        <code>require()</code> regularly works in JS in order to
+                        provide a way to load classes and modules using absolute
+                        paths.
+                    </p>
+                    <p>
+                        This keeps your code clean and readable, while making it
+                        painless to move files around your project's file
+                        structure.
+                    </p>
+                </div>
+            </div>
+
+            <hr><br>
+
+            <h2>
+                What it looks like:
+            </h2>
+
+            <p>
+                After setting up the container and module loader, writing applications with Enclosure ends up looking something like this (using EcmaScript 6):
+            </p>
+
+            {% highlight js %}
+// With Enclosure it is possible to stop using `require` in certain
+// parts of your application and just reference you classes by their
+// absolute namespace
+let ResponseFactory = use('MyBlog/Http/ResponseFactory'),
+    Controller = use('MyBlog/Http/BaseController');
+
+/**
+ * Class IndexController
+ *
+ * Handles main app routes
+ */
+class IndexController extends Controller
+{
+    /**
+     * Construct an instance of a IndexController
+     *
+     * @param {LanguageService} MyBlog_Support_LanguageService
+     */
+    constructor (MyBlog_Support_LanguageService)
+    {
+        // When the container resolves the controller class, it will
+        // automatically provide dependencies through the constructor.
+        // Due to language restrictions, MyBlog_Support_LanguageService
+        // is used as an alias for MyBlog/Support/LanguageService
+        this.lang = MyBlog_Support_LanguageService;
+    }
+
+    /**
+     * GET /api/v1/
+     *
+     * @return {Response}
+     */
+    getHome ()
+    {
+        let welcomeMessage = this.lang.get('index.welcome', 'en-us');
+
+        return ResponseFactory.make({
+            message: welcomeMessage;
+        });
+    }
+}
+            {% endhighlight %}
+        </div>
+    </div>
+</div>
