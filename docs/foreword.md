@@ -18,7 +18,7 @@ For that reason, I don't recommend it for projects intended to run in production
 - Support for ES6
 - Everything is in classes!
 
-### Things that you will probably won't like:
+### Things that you will probably not like:
 
 - Everything is in classes!
 - It looks like somebody tried really hard to make JS look like PHP/Java (yes, there's even an entrypoint class with `main()`)
