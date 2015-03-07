@@ -36,6 +36,12 @@ The Loader requires you to structure your project in a very specific way (inspir
 
 Additionally, Enclosure provides other utility components such as an extended container with support for Service Providers and automated Bootstrapper.
 
+### Seeing is better than reading (sometimes):
+
+Check out the example project for a near comprehensive use of all the features in Enclosure. The project is located under the `example/` directory. Please note that this project is written in EcmaScript 6 (ES6).
+
+You can find the source here: [https://github.com/etcinit/enclosure/tree/master/example](https://github.com/etcinit/enclosure/tree/master/example)
+
 ### Components
 
 - **Bootstrapper Component:** The bootstrapper component is capable of setting up a container, an application, service providers, and a loader with a single method call.

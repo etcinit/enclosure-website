@@ -125,10 +125,6 @@ module.exports = App;
 
 `main(args)` gets called once `enclosure.boot()` has finished setting up the environment.
 
-#### Seeing is better than reading (sometimes):
-
-Check out the example project for a near comprehensive use of all the features in Enclosure. The project is located under the `example/` directory. Please note that this project is written in EcmaScript 6 (ES6).
-
 ### Prelude Environment
 
 If you want more control on how Enclosure is setup, you can use the Prelude environment. You will have to manually setup the Container and Loader components.
