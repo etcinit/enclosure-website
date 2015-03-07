@@ -18,8 +18,8 @@ layout: wrapperless
                     <h3>Inspired by PHP/Java concepts</h3>
                     <p>
                         Crazy, right? Enclosure borrows a few ideas from PHP
-                        and Java to organize your code around classes and keep
-                        things clean.
+                        and Java (Yes, you read it right) to organize your code
+                        around classes and keep things clean.
                     </p>
                     <p>
                         Namespaces are generated from your projects directory
@@ -28,7 +28,8 @@ layout: wrapperless
                     </p>
                     <p>
                         Hate the syntax? Enclosure is very modular so you can
-                        still use DI without the module loader.
+                        still do things like using  DI without the module
+                        loader.
                     </p>
                 </div>
 
@@ -36,29 +37,42 @@ layout: wrapperless
                     <h3>Dependency Injection</h3>
                     <p>
                         DI is performed through a service container inspired by
-                        Laravel.
+                        Laravel (A PHP framework).
                     </p>
                     <p>
                         There are many ways of defining dependencies
-                        for your services (Constructors, Factories, Wraps)
+                        for your services:
+                        <a href="/docs/container/#constructor-dependency-injection">
+                            Constructors,
+                        </a>
+                        <a href="/docs/container/#factories">Factories,</a>
+                        <a href="/docs/container/#wraps">Wraps</a>.
                     </p>
                     <p>
                         Resolving services is super easy too, and might not even
                         require them to be explicitly defined if you use the
                         loader module.
                     </p>
+                    <p>
+                        There is also support for
+                        <a href="/docs/application/#service-providers">
+                            Service Providers
+                        </a>,
+                        so you can also keep service declaration organized.
+                    </p>
                 </div>
 
                 <div class="body-col body-col-3">
                     <h3>Weird and fun</h3>
                     <p>
-                        It's a crazy experiment, that works well at what it aims to do.
+                        It's a crazy experiment, that works well at what it aims
+                        to do.
                     </p>
                     <p>
-                        The module loader shifts away from how
-                        <code>require()</code> regularly works in JS in order to
-                        provide a way to load classes and modules using absolute
-                        paths.
+                        The <a href="/docs/loader/">Module Loader</a> shifts
+                        away from how <code>require()</code> regularly works
+                        in JS in order to provide a way to load classes and
+                        modules using absolute paths.
                     </p>
                     <p>
                         This keeps your code clean and readable, while making it
@@ -74,8 +88,47 @@ layout: wrapperless
                 What it looks like:
             </h2>
 
+            <p><i>
+                After setting up the container and module loader, writing
+                applications with Enclosure ends up looking something
+                like this (using ES6):
+            </i></p>
+
             <p>
-                After setting up the container and module loader, writing applications with Enclosure ends up looking something like this (using EcmaScript 6):
+                Let's say you have controller for your application that needs
+                some service to work. Normally, you would require this service
+                through a relative path, put it <code>app</code> (if you are
+                using express.js), or even put in on a global object.
+            </p>
+
+            <p>
+                With Enclosure, you can just do the following to get an
+                instance of your service with all it's dependencies injected:
+            </p>
+
+            {% highlight js %}
+var indexController = container.make('MyBlog/Http/IndexController');
+            {% endhighlight %}
+
+            <p>
+                With this piece of code, you avoided the following:
+            </p>
+
+            <ul>
+                <li>
+                    Figuring out where the controller is relative to the
+                    current file
+                </li>
+                <li>
+                    Locating and instantiating any dependencies
+                </li>
+                <li>
+                    Calling <code>new</code> on the controller
+                </li>
+            </ul>
+
+            <p>
+                On <b>src/MyBlog/Controllers/IndexController.js</b>:
             </p>
 
             {% highlight js %}
@@ -84,6 +137,9 @@ layout: wrapperless
 // absolute namespace
 let ResponseFactory = use('MyBlog/Http/ResponseFactory'),
     Controller = use('MyBlog/Http/BaseController');
+
+// However, this doesn't mean you can't or shouldn't use require() anymore:
+let winston = require('winston');
 
 /**
  * Class IndexController
@@ -115,6 +171,8 @@ class IndexController extends Controller
     {
         let welcomeMessage = this.lang.get('index.welcome', 'en-us');
 
+        winston.log('Got GET /api/v1/');
+
         return ResponseFactory.make({
             message: welcomeMessage;
         });
@@ -123,12 +181,24 @@ class IndexController extends Controller
             {% endhighlight %}
 
             <p>
+                On the controller, you avoided having to locate the
+                ResponseFactory and BaseController classes. The module loader
+                did this for you with the <code>use()</code> function.
+            </p>
+
+            <p>
+                The LanguageService is declared as a dependency in the
+                constructor, so when <code>container.make()</code> is called
+                above, it just knows what to inject.
+            </p>
+
+            <p>
                 Love it? Hate it? We are open for suggestions at
                 <a href="https://github.com/etcinit/enclosure/issues">https://github.com/etcinit/enclosure/issues</a>
             </p>
 
             <h3>Why all this? Why not stick to JS standards?!?!</h3>
-            <p>Because it's fun.</p>
+            <p><a href="/docs/foreword">Because it's fun.</a></p>
         </div>
     </div>
 </div>
