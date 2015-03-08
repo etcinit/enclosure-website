@@ -80,9 +80,14 @@ Additionally, Enclosure provides other utility components such as an extended co
 
 ### Seeing is better than reading (sometimes):
 
+#### Example Project:
 Check out the example project for a near comprehensive use of all the features in Enclosure. The project is located under the `example/` directory. Please note that this project is written in EcmaScript 6 (ES6).
 
 You can find the source here: [https://github.com/etcinit/enclosure/tree/master/example](https://github.com/etcinit/enclosure/tree/master/example)
+
+#### Other projects using Enclosure:
+
+- [Phabricator-Slack Bridge](https://github.com/etcinit/phabricator-slack-feed)
 
 ### Component overview:
 
